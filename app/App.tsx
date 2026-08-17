@@ -1,38 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import RootNavigator from './src/navigation/RootNavigator';
 import { supabase } from './src/lib/supabase';
 import { useAppStore } from './src/store/useAppStore';
-import RootNavigator from './src/navigation/RootNavigator';
 
 export default function App() {
-  const setUserId = useAppStore((s) => s.setUserId);
-  const refreshMode = useAppStore((s) => s.refreshMode);
-  const [ready, setReady] = useState(false);
+  const setSession = useAppStore((s) => s.setSession);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setUserId(data.session?.user.id ?? null);
-      setReady(true);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUserId(session?.user.id ?? null);
-    });
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    refreshMode();
-  }, [refreshMode]);
-
-  if (!ready) return null;
+    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
+    return () => listener.subscription.unsubscribe();
+  }, [setSession]);
 
   return (
-    <NavigationContainer>
-      <RootNavigator />
-    </NavigationContainer>
+    <SafeAreaView style={styles.container}>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({ container: { flex: 1 } });
