@@ -5,7 +5,8 @@
   "scripts": {
     "start": "expo start",
     "ios": "expo start --ios",
-    "android": "expo start --android"
+    "android": "expo start --android",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "expo": "~51.0.0",
@@ -26,5 +27,9 @@
     "i18next": "^23.11.0",
     "react-i18next": "^14.1.0",
     "date-fns": "^3.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "@types/react": "~18.2.79"
   }
 }
