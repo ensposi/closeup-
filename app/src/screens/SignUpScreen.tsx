@@ -18,18 +18,10 @@ export default function SignUpScreen() {
       const { data, error } = await supabase.auth.signUp({
         email: email.trim().toLowerCase(),
         password,
+        options: { data: { display_name: name.trim() } },
       });
       if (error) throw error;
       if (!data.user) throw new Error('Impossible de créer le compte.');
-
-      const { error: profileError } = await supabase.from('profiles').upsert({
-        id: data.user.id,
-        display_name: name.trim(),
-        safe_score: 100,
-        mode: 'local',
-      });
-      if (profileError) throw profileError;
-
       if (!data.session) {
         Alert.alert('Compte créé', 'Vérifie ton email pour confirmer ton compte, puis reconnecte-toi.');
       }
