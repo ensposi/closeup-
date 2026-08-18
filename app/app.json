@@ -1,1 +1,21 @@
-{"expo":{"name":"CloseUp","slug":"closeup","version":"1.0.0"}}
+{
+  "expo": {
+    "name": "CloseUp",
+    "slug": "closeup",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "closeup",
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "CloseUp utilise ta position pour afficher les Moments autour de toi et placer ceux que tu crées."
+      }
+    },
+    "android": {
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+    },
+    "plugins": [
+      ["expo-location", { "locationWhenInUsePermission": "CloseUp utilise ta position pour afficher les Moments autour de toi." }]
+    ]
+  }
+}
